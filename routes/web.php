@@ -11,6 +11,8 @@
 |
 */
 
+Route::get('/cluster', 'ClusterController@index');
+
 Route::get('/', function () {
     return view('welcome');
 });
