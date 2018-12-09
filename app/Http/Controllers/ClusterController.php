@@ -12,68 +12,112 @@ use App\Http\Controllers\Controller;
 
 class ClusterController extends Controller
 {
-    public function index() {
-        // 设置维度
-        $n = 2;
+    const DMS = 22; // 数据维度
 
+    public function index() {
+        // 设置聚类组数
+        $k = 8;
         // 加载数据
         $data = self::loadData();
-        // 获取中心点
-
-
         //聚类
-
-
-
+        list($clusterResults, $centerPoints) = self::kMeans($data, $k);
+        dd($clusterResults, $centerPoints);
     }
 
     public static function loadData() {
         $fp = fopen("D:\\Frogs_MFCCs.csv", 'r') or die("can't open file");
-        print "<table>\n";
-        //while($csv_line = fgetcsv($fp)){
-        $count = 0;
         $data = [];
+        $count = 0;
         while($csv_line = fgetcsv($fp)){
+            if($count++ > 20) break;
+            if ($count++ == 1) continue;
             $data[] = $csv_line;
         }
-        print "</table>\n";
         fclose($fp) or die("can't close file");
         return $data;
     }
 
-    public static function getEuclidDist($one, $two, $n) {
+    public static function getEuclidDist($one, $two) {
         $squareSum = 0;
-        for ($i = 0; $i < $n; $i++) {
+        for ($i = 0; $i < self::DMS; $i++) {
             $squareSum += ($one[$i] - $two[$i]) * ($one[$i] - $two[$i]);
         }
         return sqrt($squareSum);
     }
 
-    public static function getCenterPoints() {
-
+    public static function calcCenterPoints($data, $k) {
+        $centerPoint = [];
+        foreach($data as $i => $datum){
+            $points = array_column($data[$i], "point");
+            for ($j = 0; $j < self::DMS; $j++) {
+                $centerPoint[$i][$j] = array_sum(array_column($points, $j)) / count($points);
+            }
+        }
+        return $centerPoint;
     }
 
-    public static function kMeans($data, $k = 4) {
-        $m = shape(dataSet)[0]
-32     $clusterAssment = mat(zeros((m,2)))    # 用于存放该样本属于哪类及质心距离
-33     # $clusterAssment第一列存放该数据所属的中心点，第二列是该数据到中心点的距离
-34     $centroids = createCent(dataSet, k)要继续迭代
-45             $clusterAssment[i,:] = minIndex,minDist**2   # 并将第i个数据点的分配情况存入字典
-35     $clusterChanged = True   # 用来判断聚类是否已经收敛
-36     while $clusterChanged:
-            $clusterChanged = False;
-            38         for i in range(m):  # 把每一个数据点划分到离它最近的中心点
-            39             minDist = inf; minIndex = -1;
-40             for j in range(k):
-            41                 distJI = distMeans($centroids[j,:], dataSet[i,:])
-42                 if distJI < minDist:
-            43                     minDist = distJI; minIndex = j  # 如果第i个数据点到第j个中心点更近，则将i归属为j
-44             if $clusterAssment[i,0] != minIndex: $clusterChanged = True;  # 如果分配发生变化，则需
-46         print $centroids
-47         for cent in range(k):   # 重新计算中心点
-            48             ptsInClust = dataSet[nonzero($clusterAssment[:,0].A == cent)[0]]   # 去第一列等于cent的所有列
-49             $centroids[cent,:] = mean(ptsInClust, axis = 0)  # 算出这些数据的中心点
-50     return $centroids, $clusterAssment
+    public static function getCenterPoints($data, $k) {
+        $keys = array_rand($data, $k);
+        $dataReturn = [];
+        foreach ($keys as $value) {
+            $dataReturn[] = $data[$value];
+        }
+        return $dataReturn;
+    }
+
+    public static function kMeans($data, $k) {
+        // 初始化初始中心点
+        $centerPoints = self::getCenterPoints($data, $k);
+        // 初始化聚类结果数组，并存储距中心点距离
+        $clusterResults = [];
+        // 初始化聚类收敛标志位变量
+        $changeFlag = true;
+        $cct = 0;
+        // 聚类
+        while($changeFlag) {
+            if($cct++ > 100) break;
+            $changeFlag = false;
+            foreach($data as $datum) {
+                $minDist = 99999;
+                $minIndex = -1;
+                for ($j = 0; $j < $k; $j++) {
+                    // 计算每个数据点距离最近中心点
+                    $dist = self::getEuclidDist($centerPoints[$j], $datum);
+                    if ($dist < $minDist) {
+                        if($dist < 0.0000000000000001) continue 2;
+                        $minDist = $dist;
+                        $minIndex = $j;
+                    }
+                }
+                // 把这个点归类到那个中心点
+                $clusterResults[$minIndex][] = [
+                    'point' => $datum,
+                    'dist' => $minDist
+                ];
+            }
+
+            // 重新计算中心点
+            $newCenterPoints = self::calcCenterPoints($clusterResults, $k);
+            for($i = 0; $i < $k; $i++) {
+                if (!isset($newCenterPoints[$i])) {
+                    $newCenterPoints[$i] = $centerPoints[$i];
+                }
+            }
+            for ($j = 0; $j < $k; $j++) {
+                for($i = 0; $i < self::DMS; $i++) {
+                    if($newCenterPoints[$j][$i] == $centerPoints[$j][$i]) {
+                        continue;
+                    } else {
+                        $changeFlag = true;
+                        $centerPoints = $newCenterPoints;
+                        break 2;
+                    }
+                }
+            }
+        }
+
+        // 数据返回，中心点位置和聚类结果
+        return [$clusterResults, $centerPoints];
     }
 }
 
