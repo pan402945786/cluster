@@ -16,7 +16,7 @@ class ClusterController extends Controller
 
     public function index() {
         // 设置聚类组数
-        $k = 8;
+        $k = 4;
         // 加载数据
         $data = self::loadData();
         //聚类
@@ -29,8 +29,8 @@ class ClusterController extends Controller
         $data = [];
         $count = 0;
         while($csv_line = fgetcsv($fp)){
-            if($count++ > 20) break;
-            if ($count++ == 1) continue;
+            //if($count++ > 250) break;
+            if ($count++ == 0) continue;
             $data[] = $csv_line;
         }
         fclose($fp) or die("can't close file");
@@ -68,15 +68,18 @@ class ClusterController extends Controller
     public static function kMeans($data, $k) {
         // 初始化初始中心点
         $centerPoints = self::getCenterPoints($data, $k);
-        // 初始化聚类结果数组，并存储距中心点距离
-        $clusterResults = [];
         // 初始化聚类收敛标志位变量
         $changeFlag = true;
+        // 初始化聚类结果数组，并存储距中心点距离
+        $clusterResults = [];
         $cct = 0;
         // 聚类
         while($changeFlag) {
-            if($cct++ > 100) break;
+            //if($cct++ > 100) break;
+            $cct++;
             $changeFlag = false;
+            // 初始化聚类结果数组，并存储距中心点距离
+            $clusterResults = [];
             foreach($data as $datum) {
                 $minDist = 99999;
                 $minIndex = -1;
