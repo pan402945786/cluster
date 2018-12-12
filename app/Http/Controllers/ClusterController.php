@@ -23,11 +23,15 @@ class ClusterController extends Controller
 
     public function index() {
         // 设置聚类组数
-        $k = 9;
+        $k = 4;
         // 加载数据
         $data = self::loadData();
         //聚类
-        //list($clusterResults, $centerPoints, $clusterDistribution) = self::kMeans($data, $k);
+        $pam = self::pam($data, $k);
+
+        dd($pam);
+
+
         $clusterDistribution = self::kMeans($data, $k);
         // purity评价
         list($msg, $purity) = self::purity($clusterDistribution);
@@ -42,7 +46,7 @@ class ClusterController extends Controller
         $data = [];
         $count = 0;
         while($csv_line = fgetcsv($fp)){
-            //if($count++ > 250) break;
+            if($count > 1000) break;
             if ($count++ == 0) continue;
             $data[] = $csv_line;
         }
@@ -258,97 +262,75 @@ class ClusterController extends Controller
     public static function pam($data, $k) {
         // 随机选择k个中心点
         list($centerPoints,$keys) = self::getCenterPoints($data, $k);
-        // 分配每个数据到离得最近的中心点
-        // 初始化聚类收敛标志位变量
-        $changeFlag = true;
         // 初始化聚类结果数组，并存储距中心点距离
         $clusterResults = [];
         // 初始化聚类分布数组
         $clusterDistribution = [];
-        $cct = 0;
         // 中心点记录
         $visited = $keys;
+
+        // 分组
+        list($clusterResults, $pointBelong, $minTargetFunction) = self::dispatchIt($data, $k, $centerPoints);
+
         // 聚类
         foreach($data as $ik => $item) {
-            //if($cct++ > 100) break;
             if(in_array($ik, $visited)) {
                 continue;
+            } else {
+                $visited[] = $ik;
             }
-            // 初始化聚类结果数组，并存储距中心点距离
-            $clusterResults = [];
-            $clusterDistribution = [];
-            $minTargetFunction = 1000000000000000;
-            $targetFunction = 0;
-            foreach($data as $dk => $datum) {
-                $minDist = 99999;
-                $minIndex = -1;
-                for ($j = 0; $j < $k; $j++) {
-                    // 计算每个数据点距离最近中心点
-                    $dist = self::getEuclidDist($centerPoints[$j], $datum);
-                    if ($dist < $minDist) {
-                        if($dist < 0.0000000000000001) continue 2;
-                        $minDist = $dist;
-                        $minIndex = $j;
-                    }
-                }
-                // 把这个点归类到那个中心点
-                $clusterResults[$minIndex][] = [
-                    //'point' => $datum,
-                    'dist' => $minDist,
-                    'id' => $dk
-                ];
-                // 计算目标函数
-                $targetFunction += $minDist;
-                // 统计聚类信息
-                //isset($clusterDistribution[$minIndex][$datum[22]]) ? $clusterDistribution[$minIndex][$datum[22]]++ : ($clusterDistribution[$minIndex][$datum[22]] = 1);
-            }
+
+            // 找到该点所在聚簇的中心点，并用这个点替代中心点，同时记录原有中心点
+            $oldCenterPoints = $centerPoints;
+            $centerPoints[$pointBelong[$ik]] = $item;
+
+            // 分组
+            list($clusterResults, $pointBelong, $targetFunction) = self::dispatchIt($data, $k, $centerPoints);
 
             if($targetFunction < $minTargetFunction) {
-                // 记录新的目标函数值，同时记录该店已被访问过
+                // 记录新的目标函数值
                 $minTargetFunction = $targetFunction;
-                $visited[] = $ik;
-
-                // 找到该点所在聚簇的中心点，并用这个点替代中心点，同时记录原有中心点
-                $centerId = -1;
-                foreach($clusterResults as $ck => $cv) {
-                    foreach ($cv as $cck => $ccv) {
-                        if ($ccv['id'] == $ik) {
-                            $centerId = $ck;
-                        }
-                        break 2;
-                    }
-                }
-                $oldCenterPoints = $centerPoints;
-
-
             } else {
                 $centerPoints = $oldCenterPoints;
-                continue;
             }
-
-            // 用y替代所在聚类的中心点，重新计算目标函数
-            // 重新计算中心点
-            $newCenterPoints = self::calcCenterPoints($clusterResults, $k);
-            for($i = 0; $i < $k; $i++) {
-                if (!isset($newCenterPoints[$i])) {
-                    $newCenterPoints[$i] = $centerPoints[$i];
-                }
-            }
-            for ($j = 0; $j < $k; $j++) {
-                for($i = 0; $i < self::DMS; $i++) {
-                    if($newCenterPoints[$j][$i] == $centerPoints[$j][$i]) {
-                        continue;
-                    } else {
-                        $changeFlag = true;
-                        $centerPoints = $newCenterPoints;
-                        break 2;
-                    }
-                }
-            }
-
-
         }
+        dd($targetFunction);
+    }
 
+    public static function dispatchIt($data, $k, $centerPoints) {
+        $targetFunction = 0;
+        // 初始化聚类结果数组，并存储距中心点距离
+        $clusterResults = [];
+        $clusterDistribution = [];
+        $pointBelong = [];
+        foreach($data as $dk => $datum) {
+            $minDist = 99999;
+            $minIndex = -1;
+            for ($j = 0; $j < $k; $j++) {
+                // 计算每个数据点距离最近中心点
+                $dist = self::getEuclidDist($centerPoints[$j], $datum);
+                if ($dist < $minDist) {
+                    if($dist < 0.0000000000000001) {
+                        $pointBelong[$dk] = $j;
+                        continue 2;
+                    }
+                    $minDist = $dist;
+                    $minIndex = $j;
+                }
+            }
+            // 把这个点归类到那个中心点
+            $clusterResults[$minIndex][] = [
+                //'point' => $datum,
+                'dist' => $minDist,
+                'id' => $dk
+            ];
+            $pointBelong[$dk] = $minIndex;
+            // 计算目标函数
+            $targetFunction += $minDist;
+            // 统计聚类信息
+            //isset($clusterDistribution[$minIndex][$datum[22]]) ? $clusterDistribution[$minIndex][$datum[22]]++ : ($clusterDistribution[$minIndex][$datum[22]] = 1);
+        }
+        return [$clusterResults, $pointBelong, $targetFunction];
     }
 }
 
