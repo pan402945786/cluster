@@ -23,17 +23,18 @@ class ClusterController extends Controller
 
     public function index() {
         // 设置聚类组数
-        $k = 4;
+        $k = 9;
         // 加载数据
         $data = self::loadData();
         //聚类
         //list($clusterResults, $centerPoints, $clusterDistribution) = self::kMeans($data, $k);
         $clusterDistribution = self::kMeans($data, $k);
         // purity评价
-        $purity = self::purity($clusterDistribution);
+        list($msg, $purity) = self::purity($clusterDistribution);
+        echo $msg;
         // f-score评价
-        echo $purity;
-        dd($clusterDistribution);
+        $fscore = self::fscore($clusterDistribution);
+        dd($purity,$fscore);
     }
 
     public static function loadData() {
@@ -77,10 +78,31 @@ class ClusterController extends Controller
         return $dataReturn;
     }
 
+    public static function getStaticCenterPoint($data, $k) {
+        $kindCount = [];
+        $dataReturn = [];
+        $visited = [];
+        for ($i = 0; $i < $k; $i++) {
+            foreach($data as $key => $datum) {
+                if(!in_array($datum[22], $kindCount) && !in_array($key,$visited)) {
+                    $dataReturn[] = $datum;
+                    $kindCount[] = $datum[22];
+                    $visited[] = $key;
+                    if(count($kindCount) == count(self::KINDS)) {
+                        $kindCount = [];
+                    }
+                    break;
+                }
+            }
+        }
+        return $dataReturn;
+    }
+
     public static function kMeans($data, $k) {
         // 初始化初始中心点
-        $centerPoints = self::getCenterPoints($data, $k);
-        // 初始化聚类收敛标志位变量
+        //$centerPoints = self::getCenterPoints($data, $k);
+        $centerPoints = self::getStaticCenterPoint($data, $k);
+            // 初始化聚类收敛标志位变量
         $changeFlag = true;
         // 初始化聚类结果数组，并存储距中心点距离
         $clusterResults = [];
@@ -145,7 +167,6 @@ class ClusterController extends Controller
             }
         }
         unset($av);
-
         // 数据返回，中心点位置和聚类结果
         //return [$clusterResults, $centerPoints, $clusterDistribution];
         return $clusterDistribution;
@@ -155,7 +176,6 @@ class ClusterController extends Controller
         $msg = "<table border='1'><tr><td>Group</td>";
         foreach(self::KINDS as $kv) {
             $msg .= "<td>" . $kv . "</td>";
-            $msg .= "<td>" . $kv . "-Purity</td>";
         }
         $msg .= '</tr>';
         foreach ($table as $ak => $av) {
@@ -164,11 +184,75 @@ class ClusterController extends Controller
             foreach(self::KINDS as $kv) {
                 $avValue = $av[$kv];
                 $msg .= "<td>" . $avValue . "</td>";
-                $msg .= "<td>" . $avValue/$sum . "</td>";
             }
         }
         $msg .= '</table>';
-        return $msg;
+
+        // purity
+        $correctCount = 0;
+        $total = 0;
+
+        foreach(self::KINDS as $kv) {
+            $correctCount += max(array_column($table, $kv));
+            $total += array_sum(array_column($table, $kv));
+        }
+        return [$msg, $correctCount/$total];
+    }
+
+    public static function fscore($table) {
+        $tpAndFp = 0;
+        $tp = 0;
+        foreach ($table as $key => $item) {
+            $tpAndFp += self::calcComp2(array_sum($item));
+            foreach ($item as $ik => $iv) {
+                $tp += self::calcComp2($iv);
+            }
+        }
+        $fp = $tpAndFp - $tp;
+
+        $tnAndFn = 0;
+        foreach ($table as $key => $item) {
+            $visited[] = $key;
+            $firstPart = array_sum($item);
+            $secondPart = 0;
+            foreach($table as $tk => $tv) {
+                if (in_array($tk, $visited)) {
+                    continue;
+                }
+                $secondPart += array_sum($tv);
+            }
+            $tnAndFn += $firstPart * $secondPart;
+        }
+
+        $fn = 0;
+        foreach(self::KINDS as $item) {
+            $visited = [];
+            $column = array_column($table, $item);
+            foreach ($column as $ck => $cv) {
+                $visited[] = $ck;
+                $firstPart = $cv;
+                $secondPart = 0;
+                foreach ($column as $ick => $icv) {
+                    if (in_array($ick, $visited)) {
+                        continue;
+                    }
+                    $secondPart += $icv;
+                }
+                $fn += $firstPart * $secondPart;
+            }
+        }
+
+        $tn = $tnAndFn - $fn;
+
+        $p = $tp / ($tp + $fp);
+        $r = $tp / ($tp + $fn);
+        $fscore = 2* ($p * $r) / ($p + $r);
+
+        return $fscore;
+    }
+
+    public static function calcComp2($num) {
+        return $num * ($num - 1) / 2;
     }
 }
 
