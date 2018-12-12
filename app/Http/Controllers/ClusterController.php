@@ -75,7 +75,7 @@ class ClusterController extends Controller
         foreach ($keys as $value) {
             $dataReturn[] = $data[$value];
         }
-        return $dataReturn;
+        return [$dataReturn, $keys];
     }
 
     public static function getStaticCenterPoint($data, $k) {
@@ -100,7 +100,7 @@ class ClusterController extends Controller
 
     public static function kMeans($data, $k) {
         // 初始化初始中心点
-        //$centerPoints = self::getCenterPoints($data, $k);
+        //list($centerPoints,$keys] = self::getCenterPoints($data, $k);
         $centerPoints = self::getStaticCenterPoint($data, $k);
             // 初始化聚类收敛标志位变量
         $changeFlag = true;
@@ -253,6 +253,102 @@ class ClusterController extends Controller
 
     public static function calcComp2($num) {
         return $num * ($num - 1) / 2;
+    }
+
+    public static function pam($data, $k) {
+        // 随机选择k个中心点
+        list($centerPoints,$keys) = self::getCenterPoints($data, $k);
+        // 分配每个数据到离得最近的中心点
+        // 初始化聚类收敛标志位变量
+        $changeFlag = true;
+        // 初始化聚类结果数组，并存储距中心点距离
+        $clusterResults = [];
+        // 初始化聚类分布数组
+        $clusterDistribution = [];
+        $cct = 0;
+        // 中心点记录
+        $visited = $keys;
+        // 聚类
+        foreach($data as $ik => $item) {
+            //if($cct++ > 100) break;
+            if(in_array($ik, $visited)) {
+                continue;
+            }
+            // 初始化聚类结果数组，并存储距中心点距离
+            $clusterResults = [];
+            $clusterDistribution = [];
+            $minTargetFunction = 1000000000000000;
+            $targetFunction = 0;
+            foreach($data as $dk => $datum) {
+                $minDist = 99999;
+                $minIndex = -1;
+                for ($j = 0; $j < $k; $j++) {
+                    // 计算每个数据点距离最近中心点
+                    $dist = self::getEuclidDist($centerPoints[$j], $datum);
+                    if ($dist < $minDist) {
+                        if($dist < 0.0000000000000001) continue 2;
+                        $minDist = $dist;
+                        $minIndex = $j;
+                    }
+                }
+                // 把这个点归类到那个中心点
+                $clusterResults[$minIndex][] = [
+                    //'point' => $datum,
+                    'dist' => $minDist,
+                    'id' => $dk
+                ];
+                // 计算目标函数
+                $targetFunction += $minDist;
+                // 统计聚类信息
+                //isset($clusterDistribution[$minIndex][$datum[22]]) ? $clusterDistribution[$minIndex][$datum[22]]++ : ($clusterDistribution[$minIndex][$datum[22]] = 1);
+            }
+
+            if($targetFunction < $minTargetFunction) {
+                // 记录新的目标函数值，同时记录该店已被访问过
+                $minTargetFunction = $targetFunction;
+                $visited[] = $ik;
+
+                // 找到该点所在聚簇的中心点，并用这个点替代中心点，同时记录原有中心点
+                $centerId = -1;
+                foreach($clusterResults as $ck => $cv) {
+                    foreach ($cv as $cck => $ccv) {
+                        if ($ccv['id'] == $ik) {
+                            $centerId = $ck;
+                        }
+                        break 2;
+                    }
+                }
+                $oldCenterPoints = $centerPoints;
+
+
+            } else {
+                $centerPoints = $oldCenterPoints;
+                continue;
+            }
+
+            // 用y替代所在聚类的中心点，重新计算目标函数
+            // 重新计算中心点
+            $newCenterPoints = self::calcCenterPoints($clusterResults, $k);
+            for($i = 0; $i < $k; $i++) {
+                if (!isset($newCenterPoints[$i])) {
+                    $newCenterPoints[$i] = $centerPoints[$i];
+                }
+            }
+            for ($j = 0; $j < $k; $j++) {
+                for($i = 0; $i < self::DMS; $i++) {
+                    if($newCenterPoints[$j][$i] == $centerPoints[$j][$i]) {
+                        continue;
+                    } else {
+                        $changeFlag = true;
+                        $centerPoints = $newCenterPoints;
+                        break 2;
+                    }
+                }
+            }
+
+
+        }
+
     }
 }
 
