@@ -23,16 +23,14 @@ class ClusterController extends Controller
 
     public function index() {
         // 设置聚类组数
-        $k = 4;
+        $k = 5;
         // 加载数据
         $data = self::loadData();
         //聚类
-        $pam = self::pam($data, $k);
-
-        dd($pam);
+        $clusterDistribution = self::pam($data, $k);
 
 
-        $clusterDistribution = self::kMeans($data, $k);
+        //$clusterDistribution = self::kMeans($data, $k);
         // purity评价
         list($msg, $purity) = self::purity($clusterDistribution);
         echo $msg;
@@ -46,7 +44,7 @@ class ClusterController extends Controller
         $data = [];
         $count = 0;
         while($csv_line = fgetcsv($fp)){
-            if($count > 1000) break;
+            //if($count > 100) break;
             if ($count++ == 0) continue;
             $data[] = $csv_line;
         }
@@ -273,28 +271,42 @@ class ClusterController extends Controller
         list($clusterResults, $pointBelong, $minTargetFunction) = self::dispatchIt($data, $k, $centerPoints);
 
         // 聚类
-        foreach($data as $ik => $item) {
-            if(in_array($ik, $visited)) {
+        $cnt = 100;
+        while($cnt) {
+            // 随机取点
+            $randomKey = array_rand($data, 1);
+            $randomPoint = $data[$randomKey];
+            if(in_array($randomKey, $visited)) {
                 continue;
             } else {
-                $visited[] = $ik;
+                $visited[] = $randomKey;
             }
-
-            // 找到该点所在聚簇的中心点，并用这个点替代中心点，同时记录原有中心点
+            // 记录原中心点
             $oldCenterPoints = $centerPoints;
-            $centerPoints[$pointBelong[$ik]] = $item;
-
-            // 分组
-            list($clusterResults, $pointBelong, $targetFunction) = self::dispatchIt($data, $k, $centerPoints);
-
+            // 替换中心点
+            $centerPoints[$pointBelong[$randomKey]] = $randomPoint;
+            // 分组算目标函数值
+            list($clusterDistribution, $pointBelong, $targetFunction) = self::dispatchIt($data, $k, $centerPoints);
+            // 如果函数值变小，则替换,同时记录最小的目标函数值
             if($targetFunction < $minTargetFunction) {
-                // 记录新的目标函数值
                 $minTargetFunction = $targetFunction;
-            } else {
+            }
+            // 如果函数值没变小，计数-1
+            else {
+                $cnt--;
                 $centerPoints = $oldCenterPoints;
             }
         }
-        dd($targetFunction);
+
+        // 数据处理
+        foreach ($clusterDistribution as $ak => &$av) {
+            foreach (self::KINDS as $kv) {
+                if(!isset($av[$kv])) {
+                    $av[$kv] = 0;
+                }
+            }
+        }
+        return $clusterDistribution;
     }
 
     public static function dispatchIt($data, $k, $centerPoints) {
@@ -328,9 +340,9 @@ class ClusterController extends Controller
             // 计算目标函数
             $targetFunction += $minDist;
             // 统计聚类信息
-            //isset($clusterDistribution[$minIndex][$datum[22]]) ? $clusterDistribution[$minIndex][$datum[22]]++ : ($clusterDistribution[$minIndex][$datum[22]] = 1);
+            isset($clusterDistribution[$minIndex][$datum[22]]) ? $clusterDistribution[$minIndex][$datum[22]]++ : ($clusterDistribution[$minIndex][$datum[22]] = 1);
         }
-        return [$clusterResults, $pointBelong, $targetFunction];
+        return [$clusterDistribution, $pointBelong, $targetFunction];
     }
 }
 
