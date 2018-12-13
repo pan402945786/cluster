@@ -27,10 +27,10 @@ class ClusterController extends Controller
         // 加载数据
         $data = self::loadData();
         //聚类
-        $clusterDistribution = self::pam($data, $k);
+        //$clusterDistribution = self::pam($data, $k);
 
 
-        //$clusterDistribution = self::kMeans($data, $k);
+        $clusterDistribution = self::kMeans($data, $k);
         // purity评价
         list($msg, $purity) = self::purity($clusterDistribution);
         echo $msg;
@@ -44,7 +44,7 @@ class ClusterController extends Controller
         $data = [];
         $count = 0;
         while($csv_line = fgetcsv($fp)){
-            //if($count > 100) break;
+            if($count > 100) break;
             if ($count++ == 0) continue;
             $data[] = $csv_line;
         }

@@ -12,7 +12,8 @@
 */
 
 Route::get('/cluster', 'ClusterController@index');
+Route::get('/', 'BigdataController@index');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
