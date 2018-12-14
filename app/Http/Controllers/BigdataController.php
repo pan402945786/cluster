@@ -9,9 +9,16 @@
 namespace App\Http\Controllers;
 
 
+use http\Env\Request;
+
 class BigdataController extends Controller
 {
     public function index() {
         return view("hello");
+    }
+
+    public function query(Request $request) {
+        dd($request);
+        return "hello world";
     }
 }

@@ -13,6 +13,7 @@
 
 Route::get('/cluster', 'ClusterController@index');
 Route::get('/', 'BigdataController@index');
+Route::any('/query', 'BigdataController@query');
 
 //Route::get('/', function () {
 //    return view('welcome');
