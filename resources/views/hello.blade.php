@@ -103,11 +103,14 @@
                             <span class="text-white">基于 <strong class="theme-color"> 风格一致性的 </strong> 时尚服饰检索 </span>
                             <div class="row justify-content-center form pb-20 xs-mt-20">
                                 <div class="col-md-5 mt-50">
-                                    <input type="search" class="form-control" placeholder="輸入圖片連結">
+                                    <input type="search" class="form-control" placeholder="輸入圖片連結" onkeydown="enterIn(event)">
                                 </div>
                                 <div class="col-md-2 mt-50">
                                     <a class="button btn-block" id="upload-btn" href="#">Upload
                                         <i class="fa fa-upload"></i></a>
+                                </div>
+                                <div style="position:relative;width:120px;height:47px;top:50px;right:180px;cursor:pointer;">
+                                    <input type="file" name="upload" style="opacity: 0;width:165px;height:47px;" onchange="uploadFile()">
                                 </div>
                             </div>
                             <!--
@@ -119,29 +122,13 @@
                             -->
                             <h2 class="text-white mt-20 mb-10"> or choose a style </h2>
                             <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="false" data-items="6" data-md-items="5" data-sm-items="4" data-xs-items="3" data-xx-items="1" data-space="10" data-nav-dots="false" data-nav-arrow="false" >
-                                <div class="item">
-                                    <img class="img-fluid full-width" src="images/dress/01.jpg" alt="">
-                                </div>
-                                <!--
-                                                 <div class="item">
-                                                  <img class="img-fluid full-width" src="images/dress/02.jpg" alt="">
-                                                </div>
-                                -->
-                                <div class="item">
-                                    <img class="img-fluid full-width" src="images/dress/03.jpg" alt="">
-                                </div>
-                                <div class="item">
-                                    <img class="img-fluid full-width" src="images/dress/04.jpg" alt="">
-                                </div>
-                                <div class="item">
-                                    <img class="img-fluid full-width" src="images/dress/05.jpg" alt="">
-                                </div>
-                                <div class="item">
-                                    <img class="img-fluid full-width" src="images/dress/06.jpg" alt="">
-                                </div>
-                                <div class="item">
-                                    <img class="img-fluid full-width" src="images/dress/07.jpg" alt="">
-                                </div>
+                                @foreach($url as $item)
+                                    <a href="{{$item}}">
+                                        <div class="item">
+                                            <img class="img-fluid full-width" src="{{$item}}" alt="">
+                                        </div>
+                                    </a>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -150,7 +137,57 @@
         </div>
     </section>
 
+    <!--=================================
+ box -->
+    <section class="box" style="display: none;top:0;height:100%;width:100%;left:0;position:fixed;z-index: 50;background-color: #0b0b0b;">
+        <div class="zb">
+            <input id="x1" type="text"> <input id="x2" type="text">
+            <input id="y1" type="text"> <input id="y2" type="text">
+        </div>
+        <i class="close" onclick="closeShadow()" style="position:absolute;top:20px;right:20px;font-weight:100;font-style:normal;color:#fff;background:url('images/close1.png') 0 0 no-repeat;background-size:cover;width:40px;height:40px;cursor:pointer; voff blur #000;"></i>
+        <div class="mainBox" style="display: block;">
+            <div class="mainBoxLeft" id="mainBoxLeft">
+                <table>
+                    <tbody><tr>
+                        <td>
+                            <div id="mainBoxLeftImg">
+                                <div id="debugInfo" class="debugInfo">11111</div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </div>
+            <div class="st">
+                <button class="cropBtn">222</button>
+                <!-- 相同类型 -->
+                <input type="checkbox" name="type" id="type"> <label for="type" id="type">Same type</label>
 
+                <!-- 相同纹理 -->
+                <input type="checkbox" name="texture" id="texture"> <label for="texture" id="texture">Same texture</label><br>
+
+                <!-- 相同颜色 -->
+                <input type="checkbox" name="color" id="color"> <label for="color" id="color">Same color</label>
+
+                <!-- 相同领口 -->
+                <input type="checkbox" name="collar" id="collar" style="margin-left: -5px;" disabled=""> <label for="collar" id="collar">Same collar</label><br>
+
+                <!-- 相同袖长 -->
+                <input type="checkbox" name="sleeve" id="sleeve" disabled=""> <label for="sleeve" id="sleeve">Same sleeve</label>
+
+                <!-- 开始识图 -->
+                <button class="submitBtn submitBtnUpload">Submit</button>
+            </div>
+            <div class="mainBoxRight">
+                <div class="mainBoxRightResult" style="display: block;">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+            <div class="loader" style="display: block;">
+                <div></div>
+            </div>
+        </div>
+    </section>
 
     <!--=================================
      banner -->
@@ -674,6 +711,22 @@
             $("#result").show();
         });
     });
+
+    function enterIn(evt) {
+        var evt = evt ? evt : (window.event ? window.event : null);//兼容IE和FF
+        if (evt.keyCode == 13) {
+            alert(223);
+        }
+    }
+
+    function uploadFile() {
+        alert(454);
+        $(".box").show();
+    }
+
+    function closeShadow() {
+        $(".box").hide();
+    }
 
 
 </script>
