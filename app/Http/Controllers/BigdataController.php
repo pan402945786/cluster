@@ -8,8 +8,7 @@
 
 namespace App\Http\Controllers;
 
-
-use http\Env\Request;
+use Illuminate\Http\Request;
 
 class BigdataController extends Controller
 {
