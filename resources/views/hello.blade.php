@@ -93,66 +93,63 @@
 
     <!--=================================
      banner -->
-    <form id="formSubmit" method="post" target="_blank" action="/query">
-        <section class="slider-parallax jobs-banner bg-overlay-black-70 parallax" data-jarallax='{"speed": 0.7}' style="background-image: url('images/bg.png');">
-            <div class="slider-content-middle">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="slider-content text-center">
-                                <h2 class="text-white mb-20"> Upload a Photo! </h2>
-                                <span class="text-white">基于 <strong class="theme-color"> 风格一致性的 </strong> 时尚服饰检索 </span>
-                                <div class="row justify-content-center form pb-20 xs-mt-20">
-                                    <div class="col-md-5 mt-50">
-                                        <input type="search" class="form-control" placeholder="輸入圖片連結">
-                                    </div>
-                                    <div class="col-md-2 mt-50">
-                                        <button type="submit">hello</button>
-                                        <a class="button btn-block" id="upload-btn" href="#">Upload
-                                            <i class="fa fa-upload"></i></a>
-                                    </div>
+    <section class="slider-parallax jobs-banner bg-overlay-black-70 parallax" data-jarallax='{"speed": 0.7}' style="background-image: url('images/bg.png');">
+        <div class="slider-content-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="slider-content text-center">
+                            <h2 class="text-white mb-20"> Upload a Photo! </h2>
+                            <span class="text-white">基于 <strong class="theme-color"> 风格一致性的 </strong> 时尚服饰检索 </span>
+                            <div class="row justify-content-center form pb-20 xs-mt-20">
+                                <div class="col-md-5 mt-50">
+                                    <input type="search" class="form-control" placeholder="輸入圖片連結">
+                                </div>
+                                <div class="col-md-2 mt-50">
+                                    <a class="button btn-block" id="upload-btn" href="#">Upload
+                                        <i class="fa fa-upload"></i></a>
+                                </div>
+                            </div>
+                            <!--
+                                        <b class="text-white d-block mt-20">just to bring it into focus <a href="#">Join us to day</a> </b>
+                                        <div class="mt-40">
+                                          <a class="button" href="#">Post a job</a>
+                                          <a class="button white button-border" href="#">Job list</a>
+                                        </div>
+                            -->
+                            <h2 class="text-white mt-20 mb-10"> or choose a style </h2>
+                            <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="false" data-items="6" data-md-items="5" data-sm-items="4" data-xs-items="3" data-xx-items="1" data-space="10" data-nav-dots="false" data-nav-arrow="false" >
+                                <div class="item">
+                                    <img class="img-fluid full-width" src="images/dress/01.jpg" alt="">
                                 </div>
                                 <!--
-                                            <b class="text-white d-block mt-20">just to bring it into focus <a href="#">Join us to day</a> </b>
-                                            <div class="mt-40">
-                                              <a class="button" href="#">Post a job</a>
-                                              <a class="button white button-border" href="#">Job list</a>
-                                            </div>
+                                                 <div class="item">
+                                                  <img class="img-fluid full-width" src="images/dress/02.jpg" alt="">
+                                                </div>
                                 -->
-                                <h2 class="text-white mt-20 mb-10"> or choose a style </h2>
-                                <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="false" data-items="6" data-md-items="5" data-sm-items="4" data-xs-items="3" data-xx-items="1" data-space="10" data-nav-dots="false" data-nav-arrow="false" >
-                                    <div class="item">
-                                        <img class="img-fluid full-width" src="images/dress/01.jpg" alt="">
-                                    </div>
-                                    <!--
-                                                     <div class="item">
-                                                      <img class="img-fluid full-width" src="images/dress/02.jpg" alt="">
-                                                    </div>
-                                    -->
-                                    <div class="item">
-                                        <img class="img-fluid full-width" src="images/dress/03.jpg" alt="">
-                                    </div>
-                                    <div class="item">
-                                        <img class="img-fluid full-width" src="images/dress/04.jpg" alt="">
-                                    </div>
-                                    <div class="item">
-                                        <img class="img-fluid full-width" src="images/dress/05.jpg" alt="">
-                                    </div>
-                                    <div class="item">
-                                        <img class="img-fluid full-width" src="images/dress/06.jpg" alt="">
-                                    </div>
-                                    <div class="item">
-                                        <img class="img-fluid full-width" src="images/dress/07.jpg" alt="">
-                                    </div>
+                                <div class="item">
+                                    <img class="img-fluid full-width" src="images/dress/03.jpg" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="img-fluid full-width" src="images/dress/04.jpg" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="img-fluid full-width" src="images/dress/05.jpg" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="img-fluid full-width" src="images/dress/06.jpg" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="img-fluid full-width" src="images/dress/07.jpg" alt="">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-    </form>
 
 
     <!--=================================
