@@ -154,9 +154,6 @@
                         @foreach($labels as $label)
                         <button data-filter=".{{md5($label)}}">{{$label}}</button>
                         @endforeach
-                        {{--<button data-filter=".illustration">束腰</button>--}}
-                        {{--<button data-filter=".branding">碎花</button>--}}
-                        {{--<button data-filter=".web-design">魚尾</button>--}}
                     </div>
                     <div class="masonry columns-4 popup-gallery">
                         <div class="grid-sizer"></div>

@@ -16,28 +16,10 @@ use GuzzleHttp\Client;
 
 class BigdataController extends Controller
 {
-    const SERVER = 'http://localhost:8080/';
+//    const SERVER = 'http://cluster.com:8080/';
+    const SERVER = 'http://127.0.0.1/';
+//    const SERVER = 'http://62.234.201.250/';
     public function index() {
-//        $aa = [
-//            "status" => 0,
-//            'msg' => "success",
-//            'data' => [
-//                [
-//                    'url' => 'http://xyz1.jpg',
-//                    'label' => [
-//                        '蓝色','长袖','长裙','束腰','斑点'
-//                    ]
-//                ],
-//                [
-//                    'url' => 'http://xyz2.jpg',
-//                    'label' => [
-//                        '黑色','短袖','短裙','不束腰','波点'
-//                    ]
-//                ]
-//            ]
-//        ];
-//        echo json_encode($aa);
-//        exit;
         $pic = [
             '01.jpg','02.jpg','03.jpg','04.jpg','05.jpg','06.jpg','07.jpg','08.jpg'
         ];
@@ -54,11 +36,6 @@ class BigdataController extends Controller
         $labels = [];
         $site = self::SERVER;
         return view("hello",compact('arrRes', 'labels', "url", 'site'));
-    }
-
-    public function query(Request $request) {
-        dd($request);
-        return "hello world";
     }
 
     public function upload(Request $request) {
@@ -85,48 +62,33 @@ class BigdataController extends Controller
 
         // 调用接口
         $arrRes = [];
-//        $client = new Client();
-//        try {
+        $client = new Client();
+        try {
+            $url = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545142953906&di=7bb9ed1d2e50b652fcd4ffb0901d8a78&imgtype=0&src=http%3A%2F%2Fs6.cdn.deahu.com%2Fshow%2Flfile%2F8E9CDE37D4E5AFBFEB9A6FB2CC594187.jpg';
 //            $response = $client->request('POST','http://101.6.54.213:5000/get_image_url',[
-//                    'body' => json_encode(['url' => $url])
-//                ]
-//            );
-//
-//            Log::info('返回');
-//            $statusCode = $response->getStatusCode();
-//            $rsp = $response->getBody()->getContents();
-//            $arrRes = json_decode($rsp, true);
-//            Log::info($statusCode);
-//            Log::info($rsp);
-//        } catch (\Exception $e) {
-//            Log::error('error:  ' . $e->getMessage());
-//            return redirect('/');
-//        }
-
-        $arrRes = [
-            "status" => 0,
-            'msg' => "success",
-            'data' => [
-                [
-                    'url' => self::SERVER . 'storage/img/986d52bc605d63fbf025e937a54a1da8.png',
-                    'label' => [
-                        '蓝色','长袖','长裙','束腰','斑点'
-                    ]
-                ],
-                [
-                    'url' => self::SERVER . 'storage/img/a5c93e5ca6a4ba254d7c39edd1a8faaa.png',
-                    'label' => [
-                        '黑色','短袖','短裙','不束腰','波点'
-                    ]
+            $response = $client->request('post','http://62.234.180.193:8050/get_image_url',[
+                    'json' => ['url' => $url],
+                    'headers' => ['content-type' => 'application/json']
                 ]
-            ]
-        ];
+            );
+
+            Log::info('返回');
+            $statusCode = $response->getStatusCode();
+            $rsp = $response->getBody()->getContents();
+            $arrRes = json_decode($rsp, true);
+            Log::info($statusCode);
+            Log::info($rsp);
+        } catch (\Exception $e) {
+            Log::error('error:  ' . $e->getMessage());
+            return redirect('/');
+        }
 
         // 处理返回参数
         if(isset($arrRes['status']) && ($arrRes['status'] == 0)) {
             $arrRes = $arrRes['data'];
             $labels = [];
             foreach ($arrRes as &$item) {
+                $item['url'] = 'http://' . $item['url'];
                 $labels = array_merge($labels, $item['label']);
                 foreach($item['label'] as $labelItem) {
                     $item['md5'][$labelItem] = md5($labelItem);
