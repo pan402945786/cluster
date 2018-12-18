@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="css/plugins-css.css" />
 
     <!-- revoluation -->
-    <link rel="stylesheet" type="text/css" href="revolution/css/settings.css" media="screen" />
+    {{--<link rel="stylesheet" type="text/css" href="revolution/css/settings.css" media="screen" />--}}
 
     <!-- Typography -->
     <link rel="stylesheet" type="text/css" href="css/typography.css" />
@@ -104,7 +104,9 @@
                             <span class="text-white">基于 <strong class="theme-color"> 风格一致性的 </strong> 时尚服饰检索 </span>
                             <div class="row justify-content-center form pb-20 xs-mt-20">
                                 <div class="col-md-5 mt-50">
-                                    <input type="search" class="form-control" placeholder="輸入圖片連結" onkeydown="enterIn(event)">
+                                    <form method="get" action="/upload" id="upload_url" enctype="multipart/form-data">
+                                        <input type="search" name="upload_img" class="form-control" placeholder="輸入圖片連結" onkeydown="enterIn(event)">
+                                    </form>
                                 </div>
                                 <div class="col-md-2 mt-50">
                                     <a class="button btn-block" id="upload-btn" href="#">Upload
@@ -126,7 +128,7 @@
                             <h2 class="text-white mt-20 mb-10"> or choose a style </h2>
                             <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="false" data-items="6" data-md-items="5" data-sm-items="4" data-xs-items="3" data-xx-items="1" data-space="10" data-nav-dots="false" data-nav-arrow="false" >
                                 @foreach($url as $item)
-                                    <a href="{{$item}}">
+                                    <a href="{{$site . "upload?upload_img=" . $site . $item}}">
                                         <div class="item">
                                             <img class="img-fluid full-width" src="{{$item}}" alt="">
                                         </div>
@@ -143,7 +145,7 @@
     <!--=================================
      banner -->
 
-    <section id="result" class="white-bg masonry-main page-section-ptb">
+    <section id="result" class="white-bg masonry-main page-section-ptb" style="display:@if(!empty($arrRes))block @else none @endif">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12">
@@ -171,8 +173,6 @@
             </div>
         </div>
     </section>
-
-
 
     <section class="blockquote-section testimonial-title page-section-ptb">
         <div class="container">
@@ -572,21 +572,21 @@
 <script>var plugin_path = 'js/';</script>
 
 <!-- REVOLUTION JS FILES -->
-<script src="revolution/js/jquery.themepunch.tools.min.js"></script>
-<script src="revolution/js/jquery.themepunch.revolution.min.js"></script>
+{{--<script src="revolution/js/jquery.themepunch.tools.min.js"></script>--}}
+{{--<script src="revolution/js/jquery.themepunch.revolution.min.js"></script>--}}
 
-<!-- SLIDER REVOLUTION 5.0 EXTENSIONS  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->
-<script src="revolution/js/extensions/revolution.extension.actions.min.js"></script>
-<script src="revolution/js/extensions/revolution.extension.carousel.min.js"></script>
-<script src="revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
-<script src="revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
-<script src="revolution/js/extensions/revolution.extension.migration.min.js"></script>
-<script src="revolution/js/extensions/revolution.extension.navigation.min.js"></script>
-<script src="revolution/js/extensions/revolution.extension.parallax.min.js"></script>
-<script src="revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
-<script src="revolution/js/extensions/revolution.extension.video.min.js"></script>
-<!-- revolution custom -->
-<script src="revolution/js/revolution-custom.js"></script>
+{{--<!-- SLIDER REVOLUTION 5.0 EXTENSIONS  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->--}}
+{{--<script src="revolution/js/extensions/revolution.extension.actions.min.js"></script>--}}
+{{--<script src="revolution/js/extensions/revolution.extension.carousel.min.js"></script>--}}
+{{--<script src="revolution/js/extensions/revolution.extension.kenburn.min.js"></script>--}}
+{{--<script src="revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>--}}
+{{--<script src="revolution/js/extensions/revolution.extension.migration.min.js"></script>--}}
+{{--<script src="revolution/js/extensions/revolution.extension.navigation.min.js"></script>--}}
+{{--<script src="revolution/js/extensions/revolution.extension.parallax.min.js"></script>--}}
+{{--<script src="revolution/js/extensions/revolution.extension.slideanims.min.js"></script>--}}
+{{--<script src="revolution/js/extensions/revolution.extension.video.min.js"></script>--}}
+{{--<!-- revolution custom -->--}}
+{{--<script src="revolution/js/revolution-custom.js"></script>--}}
 
 <!-- custom -->
 <script src="js/custom.js"></script>
@@ -594,16 +594,17 @@
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
     $(document).ready(function(){
 
-        $("#result").hide();
-        $("#upload-btn").click(function(){
-            $("#result").show();
-        });
+        // $("#result").hide();
+        // $("#upload-btn").click(function(){
+        //     $("#result").show();
+        // });
     });
 
     function enterIn(evt) {
         var evt = evt ? evt : (window.event ? window.event : null);//兼容IE和FF
         if (evt.keyCode == 13) {
-            alert(223);
+            var form = document.getElementById('upload_url');
+            form.submit();
         }
     }
 

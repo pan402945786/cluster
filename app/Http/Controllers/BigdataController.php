@@ -16,6 +16,7 @@ use GuzzleHttp\Client;
 
 class BigdataController extends Controller
 {
+    const SERVER = 'http://localhost:8080/';
     public function index() {
 //        $aa = [
 //            "status" => 0,
@@ -51,8 +52,8 @@ class BigdataController extends Controller
 
         $arrRes = [];
         $labels = [];
-
-        return view("hello",compact('arrRes', 'labels', "url"));
+        $site = self::SERVER;
+        return view("hello",compact('arrRes', 'labels', "url", 'site'));
     }
 
     public function query(Request $request) {
@@ -75,7 +76,7 @@ class BigdataController extends Controller
             }
             $newName = md5(date("Y-m-d H:i:s") . $clientName) . "." . $entension;//图片重命名
             $bool = Storage::disk('uploadimg')->put($newName, file_get_contents($realPath));//保存图片
-            $url = "http://localhost:8080/storage/img/" . $newName;
+            $url = self::SERVER . "storage/img/" . $newName;
         } elseif(!empty($request->input('upload_img'))) {
             $url = $request->input('upload_img');
         } else {
@@ -107,13 +108,13 @@ class BigdataController extends Controller
             'msg' => "success",
             'data' => [
                 [
-                    'url' => 'http://localhost:8080/storage/img/986d52bc605d63fbf025e937a54a1da8.png',
+                    'url' => self::SERVER . 'storage/img/986d52bc605d63fbf025e937a54a1da8.png',
                     'label' => [
                         '蓝色','长袖','长裙','束腰','斑点'
                     ]
                 ],
                 [
-                    'url' => 'http://localhost:8080/storage/img/a5c93e5ca6a4ba254d7c39edd1a8faaa.png',
+                    'url' => self::SERVER . 'storage/img/a5c93e5ca6a4ba254d7c39edd1a8faaa.png',
                     'label' => [
                         '黑色','短袖','短裙','不束腰','波点'
                     ]
@@ -145,10 +146,11 @@ class BigdataController extends Controller
         $url = [];
         foreach ($pic as $value) {
             if(in_array($value, $except)) continue;
-            $url[] = "images/dress/" . $value;
+            $url[] = self::SERVER . "images/dress/" . $value;
         }
         // 封装格式返回
+        $site = self::SERVER;
 
-        return view('hello', compact('arrRes', 'labels', 'url'));
+        return view('hello', compact('arrRes', 'labels', 'url', 'site'));
     }
 }
