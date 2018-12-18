@@ -17,8 +17,8 @@ use GuzzleHttp\Client;
 class BigdataController extends Controller
 {
 //    const SERVER = 'http://cluster.com:8080/';
-    const SERVER = 'http://127.0.0.1/';
-//    const SERVER = 'http://62.234.201.250/';
+//    const SERVER = 'http://127.0.0.1/';
+    const SERVER = 'http://62.234.201.250/';
     public function index() {
         $pic = [
             '01.jpg','02.jpg','03.jpg','04.jpg','05.jpg','06.jpg','07.jpg','08.jpg'
