@@ -64,7 +64,6 @@ class BigdataController extends Controller
         $arrRes = [];
         $client = new Client();
         try {
-            $url = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545142953906&di=7bb9ed1d2e50b652fcd4ffb0901d8a78&imgtype=0&src=http%3A%2F%2Fs6.cdn.deahu.com%2Fshow%2Flfile%2F8E9CDE37D4E5AFBFEB9A6FB2CC594187.jpg';
 //            $response = $client->request('POST','http://101.6.54.213:5000/get_image_url',[
             $response = $client->request('post','http://62.234.180.193:8050/get_image_url',[
                     'json' => ['url' => $url],
