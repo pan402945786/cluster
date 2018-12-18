@@ -14,6 +14,7 @@
 Route::get('/cluster', 'ClusterController@index');
 Route::get('/', 'BigdataController@index');
 Route::any('/query', 'BigdataController@query');
+Route::post('/upload', 'BigdataController@upload');
 
 //Route::get('/', function () {
 //    return view('welcome');

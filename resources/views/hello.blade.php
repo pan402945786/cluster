@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>大数据系统基础（项目25）</title>
 
     <!-- Favicon -->
@@ -110,7 +111,9 @@
                                         <i class="fa fa-upload"></i></a>
                                 </div>
                                 <div style="position:relative;width:120px;height:47px;top:50px;right:180px;cursor:pointer;">
-                                    <input type="file" name="upload" style="opacity: 0;width:165px;height:47px;" onchange="uploadFile()">
+                                    <form method="post" action="/upload" id="upload_img" enctype="multipart/form-data">
+                                        <input type="file" name="upload" style="opacity: 0;width:165px;height:47px;" onchange="uploadFile()">
+                                    </form>
                                 </div>
                             </div>
                             <!--
@@ -138,58 +141,6 @@
     </section>
 
     <!--=================================
- box -->
-    <section class="box" style="display: none;top:0;height:100%;width:100%;left:0;position:fixed;z-index: 50;background-color: #0b0b0b;">
-        <div class="zb">
-            <input id="x1" type="text"> <input id="x2" type="text">
-            <input id="y1" type="text"> <input id="y2" type="text">
-        </div>
-        <i class="close" onclick="closeShadow()" style="position:absolute;top:20px;right:20px;font-weight:100;font-style:normal;color:#fff;background:url('images/close1.png') 0 0 no-repeat;background-size:cover;width:40px;height:40px;cursor:pointer; voff blur #000;"></i>
-        <div class="mainBox" style="display: block;">
-            <div class="mainBoxLeft" id="mainBoxLeft">
-                <table>
-                    <tbody><tr>
-                        <td>
-                            <div id="mainBoxLeftImg">
-                                <div id="debugInfo" class="debugInfo">11111</div>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody></table>
-            </div>
-            <div class="st">
-                <button class="cropBtn">222</button>
-                <!-- 相同类型 -->
-                <input type="checkbox" name="type" id="type"> <label for="type" id="type">Same type</label>
-
-                <!-- 相同纹理 -->
-                <input type="checkbox" name="texture" id="texture"> <label for="texture" id="texture">Same texture</label><br>
-
-                <!-- 相同颜色 -->
-                <input type="checkbox" name="color" id="color"> <label for="color" id="color">Same color</label>
-
-                <!-- 相同领口 -->
-                <input type="checkbox" name="collar" id="collar" style="margin-left: -5px;" disabled=""> <label for="collar" id="collar">Same collar</label><br>
-
-                <!-- 相同袖长 -->
-                <input type="checkbox" name="sleeve" id="sleeve" disabled=""> <label for="sleeve" id="sleeve">Same sleeve</label>
-
-                <!-- 开始识图 -->
-                <button class="submitBtn submitBtnUpload">Submit</button>
-            </div>
-            <div class="mainBoxRight">
-                <div class="mainBoxRightResult" style="display: block;">
-                    <ul>
-                    </ul>
-                </div>
-            </div>
-            <div class="loader" style="display: block;">
-                <div></div>
-            </div>
-        </div>
-    </section>
-
-    <!--=================================
      banner -->
 
     <section id="result" class="white-bg masonry-main page-section-ptb">
@@ -198,87 +149,23 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="isotope-filters">
                         <button data-filter="*" class="active">All</button>
-                        <button data-filter=".photography">紅色</button>
-                        <button data-filter=".illustration">束腰</button>
-                        <button data-filter=".branding">碎花</button>
-                        <button data-filter=".web-design">魚尾</button>
+                        @foreach($labels as $label)
+                        <button data-filter=".{{md5($label)}}">{{$label}}</button>
+                        @endforeach
+                        {{--<button data-filter=".illustration">束腰</button>--}}
+                        {{--<button data-filter=".branding">碎花</button>--}}
+                        {{--<button data-filter=".web-design">魚尾</button>--}}
                     </div>
                     <div class="masonry columns-4 popup-gallery">
                         <div class="grid-sizer"></div>
-                        <div class="masonry-item photography illustration">
+                        @foreach($arrRes as $arrItem)
+                        <div class="masonry-item {{$arrItem['label_str']}}">
                             <div class="portfolio-item">
-                                <img src="images/portfolio/masonry/01.jpg" alt="">
-                                <a class="popup portfolio-img" href="images/portfolio/masonry/01.jpg"><i class="fa fa-arrows-alt"></i></a>
+                                <img src="{{$arrItem['url']}}" alt="">
+                                <a class="popup portfolio-img" href="{{$arrItem['url']}}"><i class="fa fa-arrows-alt"></i></a>
                             </div>
                         </div>
-
-                        <div class="masonry-item photography">
-                            <div class="portfolio-item">
-                                <img src="images/portfolio/masonry/02.jpg" alt="">
-                                <a class="popup portfolio-img" href="images/portfolio/masonry/02.jpg"><i class="fa fa-arrows-alt"></i></a>
-                            </div>
-                        </div>
-                        <div class="masonry-item photography branding">
-                            <div class="portfolio-item">
-                                <img src="images/portfolio/masonry/03.jpg" alt="">
-                                <a class="popup portfolio-img" href="images/portfolio/masonry/03.jpg"><i class="fa fa-arrows-alt"></i></a>
-                            </div>
-                        </div>
-                        <div class="masonry-item web-design">
-                            <div class="portfolio-item">
-                                <img src="images/portfolio/masonry/04.gif" alt="">
-                                <a class="popup portfolio-img" href="images/portfolio/masonry/04.gif"><i class="fa fa-arrows-alt"></i></a>
-                            </div>
-                        </div>
-                        <div class="masonry-item photography illustration">
-                            <div class="portfolio-item">
-                                <img src="images/portfolio/masonry/05.jpg" alt="">
-                                <a class="popup portfolio-img" href="images/portfolio/masonry/05.jpg"><i class="fa fa-arrows-alt"></i></a>
-                            </div>
-                        </div>
-                        <div class="masonry-item photography">
-                            <div class="portfolio-item">
-                                <img src="images/portfolio/masonry/06.jpg" alt="">
-                                <a class="popup portfolio-img" href="images/portfolio/masonry/06.jpg"><i class="fa fa-arrows-alt"></i></a>
-                            </div>
-                        </div>
-                        <div class="masonry-item">
-                            <div class="portfolio-item">
-                                <img src="images/portfolio/masonry/07.jpg" alt="">
-                                <a class="popup portfolio-img" href="images/portfolio/masonry/07.jpg"><i class="fa fa-arrows-alt"></i></a>
-                            </div>
-                        </div>
-                        <div class="masonry-item photography branding">
-                            <div class="portfolio-item">
-                                <img src="images/portfolio/masonry/08.jpg" alt="">
-                                <a class="popup portfolio-img" href="images/portfolio/masonry/08.jpg"><i class="fa fa-arrows-alt"></i></a>
-                            </div>
-                        </div>
-                        <div class="masonry-item illustration">
-                            <div class="portfolio-item">
-                                <img src="images/portfolio/masonry/09.jpg" alt="">
-                                <a class="popup portfolio-img" href="images/portfolio/masonry/09.jpg"><i class="fa fa-arrows-alt"></i></a>
-                            </div>
-                        </div>
-                        <div class="masonry-item illustration">
-                            <div class="portfolio-item">
-                                <img src="images/portfolio/masonry/10.jpg" alt="">
-                                <a class="popup portfolio-img" href="images/portfolio/masonry/10.jpg"><i class="fa fa-arrows-alt"></i></a>
-                            </div>
-                        </div>
-                        <div class="masonry-item">
-                            <div class="portfolio-item">
-                                <img src="images/portfolio/masonry/01.jpg" alt="">
-                                <a class="popup portfolio-img" href="images/portfolio/masonry/01.jpg"><i class="fa fa-arrows-alt"></i></a>
-                            </div>
-                        </div>
-                        <div class="masonry-item branding">
-                            <div class="portfolio-item">
-                                <img src="images/portfolio/masonry/02.jpg" alt="">
-                                <a class="popup portfolio-img" href="images/portfolio/masonry/02.jpg"><i class="fa fa-arrows-alt"></i></a>
-                            </div>
-                        </div>
-
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -704,6 +591,7 @@
 <!-- custom -->
 <script src="js/custom.js"></script>
 <script>
+    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
     $(document).ready(function(){
 
         $("#result").hide();
@@ -720,14 +608,9 @@
     }
 
     function uploadFile() {
-        alert(454);
-        $(".box").show();
+        var form = document.getElementById('upload_img');
+        form.submit();
     }
-
-    function closeShadow() {
-        $(".box").hide();
-    }
-
 
 </script>
 </body>

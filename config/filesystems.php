@@ -64,6 +64,15 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        'uploadimg'=>[
+            'driver'=>'local',
+            'root'=>storage_path(config('admin.upload_img_path'))
+        ],
+        'uploadfiles'=>[
+            'driver'=>'local',
+            'root'=>storage_path(config('admin.upload_file_path'))
+        ],
+
     ],
 
 ];
