@@ -107,7 +107,7 @@ class BigdataController extends Controller
         $url = [];
         foreach ($pic as $value) {
             if(in_array($value, $except)) continue;
-            $url[] = self::SERVER . "images/dress/" . $value;
+            $url[] = "images/dress/" . $value;
         }
         // 封装格式返回
         $site = self::SERVER;
