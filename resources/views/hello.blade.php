@@ -73,13 +73,13 @@
                                     </li>
                                 </ul>
                                 <!-- menu links -->
-                                <div class="menu-bar">
-                                    <ul class="menu-links">
-                                        <li class="active"><a href="javascript:void(0)" >Home</a></li>
-                                        <li><a href="#process">Process</a></li>
-                                        <!--            <li><a href="#result">Result</a></li>-->
-                                    </ul>
-                                </div>
+                                {{--<div class="menu-bar">--}}
+                                    {{--<ul class="menu-links">--}}
+                                        {{--<li class="active"><a href="javascript:void(0)" >Home</a></li>--}}
+                                        {{--<li><a href="#process">Process</a></li>--}}
+                                        {{--<!--            <li><a href="#result">Result</a></li>-->--}}
+                                    {{--</ul>--}}
+                                {{--</div>--}}
                             </div>
                         </div>
                     </div>
@@ -100,15 +100,21 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="slider-content text-center">
-                            <h2 class="text-white mb-20"> Upload a Photo! </h2>
-                            <span class="text-white">基于 <strong class="theme-color"> 风格一致性的 </strong> 时尚服饰检索 </span>
+                            <h2 class="text-white mb-20">基于 <strong class="theme-color"> 风格一致性的 </strong> 时尚服饰检索 </h2>
+                            {{--<h2 class="text-white mb-20"> Upload a Photo! </h2>--}}
+                            {{--<span class="text-white">基于 <strong class="theme-color"> 风格一致性的 </strong> 时尚服饰检索 </span>--}}
                             <div class="row justify-content-center form pb-20 xs-mt-20">
-                                <div class="col-md-5 mt-50">
-                                    <form method="get" action="/upload" id="upload_url" enctype="multipart/form-data">
-                                        <input type="search" name="upload_img" class="form-control" placeholder="輸入圖片連結" onkeydown="enterIn(event)">
-                                    </form>
+                                <div class="col-md-4 mt-20">
+                                    <div class="newsletter fancy mb-10">
+                                        <form method="get" action="/upload" id="upload_url" enctype="multipart/form-data">
+                                            <input type="search" name="upload_img" class="white-bg form-control" placeholder="輸入圖片連結" onkeydown="enterIn(event)">
+                                            <div class="clear">
+                                                <button type="submit" name="submitbtn" class="button form-button1"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="col-md-2 mt-50">
+                                <div class="col-md-2 mt-20">
                                     <a class="button btn-block" id="upload-btn" href="#">Upload
                                         <i class="fa fa-upload"></i></a>
                                 </div>
@@ -118,6 +124,7 @@
                                     </form>
                                 </div>
                             </div>
+                            <h6 class="text-white ft-1">（上傳圖片格式為jpg,png 且小於10MB）</h6>
                             <!--
                                         <b class="text-white d-block mt-20">just to bring it into focus <a href="#">Join us to day</a> </b>
                                         <div class="mt-40">
@@ -125,15 +132,18 @@
                                           <a class="button white button-border" href="#">Job list</a>
                                         </div>
                             -->
-                            <h2 class="text-white mt-20 mb-10"> or choose a style </h2>
-                            <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="false" data-items="6" data-md-items="5" data-sm-items="4" data-xs-items="3" data-xx-items="1" data-space="10" data-nav-dots="false" data-nav-arrow="false" >
-                                @foreach($url as $item)
-                                    <a href="{{$site . "upload?upload_img=" . $site . $item}}">
-                                        <div class="item">
-                                            <img class="img-fluid full-width" src="{{$item}}" alt="">
-                                        </div>
-                                    </a>
-                                @endforeach
+                            {{--<h2 class="text-white mt-20 mb-10"> or choose a style </h2>--}}
+                            <div class="row justify-content-center">
+                                {{--<div class="owl-carousel" data-nav-dots="false" data-nav-arrow="false" data-items="6" data-md-items="5" data-sm-items="4" data-xs-items="3" data-xx-items="1" data-space="10" data-nav-dots="false" data-nav-arrow="false" >--}}
+                                <div class="mt-50 col-md-8 owl-carousel" data-items="5" data-md-items="5" data-sm-items="4" data-xs-items="3" data-xx-items="2" data-space="10" data-nav-dots="false" data-nav-arrow="false" >
+                                    @foreach($url as $item)
+                                        <a href="{{$site . "upload?upload_img=" . $site . $item}}">
+                                            <div class="item">
+                                                <img class="img-fluid full-width" src="{{$item}}" alt="">
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -171,7 +181,7 @@
         </div>
     </section>
 
-    <section class="blockquote-section testimonial-title page-section-ptb">
+    <section id="goal" class="blockquote-section testimonial-title page-section-ptb">
         <div class="container">
             <div class="row no-gutter">
                 <div class="col-sm-12 text-center">
@@ -184,7 +194,7 @@
         </div>
     </section>
 
-    <section class="page-section-ptb gray-bg">
+    <section id="members" class="page-section-ptb gray-bg">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -197,7 +207,7 @@
 
             <div class="row mt-30">
                 <div class="col-lg-12 col-md-12">
-                    <div class="owl-carousel" data-nav-dots="true" data-items="4" data-md-items="3" data-sm-items="3" data-xs-items="2" data-xx-items="1" data-space="20">
+                    <div class="owl-carousel" data-nav-dots="true" data-nav-arrow="true" data-items="4" data-md-items="3" data-sm-items="3" data-xs-items="2" data-xx-items="1" data-space="20">
                         <div class="item">
                             <div class="team team-border">
                                 <!--
