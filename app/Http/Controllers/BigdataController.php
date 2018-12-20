@@ -82,6 +82,8 @@ class BigdataController extends Controller
             return redirect('/');
         }
 
+        $originUrl = $url;
+
         // 处理返回参数
         if(isset($arrRes['status']) && ($arrRes['status'] == 0)) {
             $arrRes = $arrRes['data'];
@@ -112,6 +114,6 @@ class BigdataController extends Controller
         // 封装格式返回
         $site = self::SERVER;
 
-        return view('hello', compact('arrRes', 'labels', 'url', 'site'));
+        return view('results', compact('arrRes', 'labels', 'url', 'site', 'originUrl'));
     }
 }

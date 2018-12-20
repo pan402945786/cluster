@@ -107,7 +107,7 @@
                                 <div class="col-md-4 mt-20">
                                     <div class="newsletter fancy mb-10">
                                         <form method="get" action="/upload" id="upload_url" enctype="multipart/form-data">
-                                            <input type="search" name="upload_img" class="white-bg form-control" placeholder="輸入圖片連結" onkeydown="enterIn(event)">
+                                            <input type="search" name="upload_img" class="white-bg form-control" style="padding-right:20px;" placeholder="輸入圖片連結" onkeydown="enterIn(event)">
                                             <div class="clear">
                                                 <button type="submit" name="submitbtn" class="button form-button1"><i class="fa fa-search"></i></button>
                                             </div>
