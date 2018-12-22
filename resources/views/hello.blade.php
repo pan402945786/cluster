@@ -115,12 +115,12 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2 mt-20">
-                                    <a class="button btn-block" id="upload-btn" href="#">Upload
+                                    <a class="button btn-block" id="upload-btn" href="#" onclick="clp()">Upload
                                         <i class="fa fa-upload"></i></a>
                                 </div>
-                                <div style="position:relative;width:120px;height:47px;top:50px;right:180px;cursor:pointer;">
+                                <div style="position:relative;width:120px;height:47px;top:50px;right:180px;cursor:pointer;display:none;">
                                     <form method="post" action="/upload" id="upload_img" enctype="multipart/form-data">
-                                        <input type="file" name="upload" style="opacity: 0;width:165px;height:47px;" onchange="uploadFile()">
+                                        <input type="file" name="upload" id="File" style="opacity: 0;width:165px;height:47px;" onchange="uploadFile()">
                                     </form>
                                 </div>
                             </div>
@@ -618,6 +618,10 @@
     function uploadFile() {
         var form = document.getElementById('upload_img');
         form.submit();
+    }
+
+    function clp(){
+        return  $("#File").click();
     }
 
 </script>
