@@ -16,9 +16,9 @@ use GuzzleHttp\Client;
 
 class BigdataController extends Controller
 {
-    const SERVER = 'http://cluster.com:8080/';
+//    const SERVER = 'http://cluster.com:8080/';
 //    const SERVER = 'http://127.0.0.1/';
-//    const SERVER = 'http://62.234.201.250/';
+    const SERVER = 'http://62.234.201.250/';
     public function index() {
 //        $a = 0.2;
 //        $b = 1.5;
