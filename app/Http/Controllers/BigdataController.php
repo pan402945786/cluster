@@ -16,10 +16,44 @@ use GuzzleHttp\Client;
 
 class BigdataController extends Controller
 {
-//    const SERVER = 'http://cluster.com:8080/';
+    const SERVER = 'http://cluster.com:8080/';
 //    const SERVER = 'http://127.0.0.1/';
-    const SERVER = 'http://62.234.201.250/';
+//    const SERVER = 'http://62.234.201.250/';
     public function index() {
+//        $a = 0.2;
+//        $b = 1.5;
+//        $h = $b-$a;
+//        $span = [];
+//        for($i = 0; $i < 17; $i++) {
+//            $span[] = $a + $i * $h / 16;
+//        }
+//
+//        $mid = [];
+//        foreach ($span as $item) {
+//            $aa = -1 * $item * $item;
+//            $mid[] = exp($aa);
+//        }
+//
+//        $result[0] = ($h / 2) * ($mid[0] + $mid[16]);
+//        $result[1] = ($h / 4) * ($mid[0] + $mid[16] + 2 * ($mid[8]));
+//        $result[2] = ($h / 8) * ($mid[0] + $mid[16] + 2 * ($mid[4] + $mid[8] + $mid[12]));
+//        $result[3] = ($h / 16) * ($mid[0] + $mid[16] + 2 * ($mid[4] + $mid[8] + $mid[12] + $mid[2] + $mid[6] + $mid[10] + $mid[14]));
+//        $result[4] = ($h / 32) * ($mid[0] + $mid[16] + 2 * ($mid[4] + $mid[8] + $mid[12] + $mid[2] + $mid[6] + $mid[10] + $mid[14] + $mid[1] + $mid[3] + $mid[5] + $mid[7] + $mid[9] + $mid[11] + $mid[13] + $mid[15]));
+//
+//        $result1 = [];
+//        for($j = 0; $j < 5; $j++) {
+//            $result1[$j][0] = $result[$j];
+//        }
+//        for($j = 0; $j < 5; $j++) {
+//            for ($k = 1; $k <= $j; $k++) {
+//                $result1[$j][$k] = ((pow(4,$k)*$result1[$j][$k-1]) - ($result1[$j-1][$k-1])) / (pow(4,$k)-1);
+//            }
+//        }
+//
+//        dd($result1);
+//
+
+
         $pic = [
             '01.jpg','02.jpg','03.jpg','04.jpg','05.jpg','06.jpg','07.jpg','08.jpg'
         ];
