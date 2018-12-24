@@ -108,16 +108,16 @@
                 <div class="col-md-4 mt-20">
                     <div class="newsletter fancy mb-10">
                         <form method="get" action="/upload" id="upload_url" enctype="multipart/form-data">
-                            <input type="search" name="upload_img" class="white-bg form-control" style="padding-right:20px;" placeholder="輸入圖片連結" onkeydown="enterIn(event)">
+                            <input type="search" name="upload_img" class="white-bg form-control" style="padding-right:20px;" placeholder="输入图片链接" onkeydown="enterIn(event)">
                             <div class="clear">
                                 <button type="submit" name="submitbtn" class="button form-button1"><i class="fa fa-search"></i></button>
                             </div>
                         </form>
                     </div>
-                    <span class="ft-1">（上傳圖片格式為jpg,png 且小於10MB）</span>
+                    <span class="ft-1">（上传图片格式为jpg,png 且小于10MB）</span>
                 </div>
                 <div class="col-md-2 mt-20">
-                    <a class="button btn-block" id="upload-btn" href="#" onclick="clp()">Upload
+                    <a class="button btn-block" id="upload-btn" href="#" onclick="clp()">上传图片
                         <i class="fa fa-upload"></i></a>
                 </div>
                 <div style="position:relative;width:120px;height:47px;top:50px;right:180px;cursor:pointer;display:none;">
@@ -162,7 +162,7 @@
             <div class="footer-widget">
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <p class="mt-15"> &copy;Copyright <span id="copyright"></span> <a href="#"> 大數據第12組 </a> All Rights Reserved </p>
+                        <p class="mt-15"> &copy;Copyright <span id="copyright"></span> <a href="#"> 大数据第12組 </a> All Rights Reserved </p>
                     </div>
                 </div>
             </div>

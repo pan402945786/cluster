@@ -115,7 +115,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2 mt-20">
-                                    <a class="button btn-block" id="upload-btn" href="#" onclick="clp()">Upload
+                                    <a class="button btn-block" id="upload-btn" href="#" onclick="clp()">上传图片
                                         <i class="fa fa-upload"></i></a>
                                 </div>
                                 <div style="position:relative;width:120px;height:47px;top:50px;right:180px;cursor:pointer;display:none;">
