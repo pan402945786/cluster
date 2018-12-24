@@ -83,7 +83,8 @@ class BigdataController extends Controller
             $realPath = $file->getRealPath();//临时文件的绝对路径
             $entension = $file->getClientOriginalExtension();// 扩展名
             if (!in_array($entension, $rule)) {
-                return '图片格式为jpg,png,gif';
+                $entension = 'jpg';
+                //return '图片格式为jpg,png,gif';
             }
             $newName = md5(date("Y-m-d H:i:s") . $clientName) . "." . $entension;//图片重命名
             $bool = Storage::disk('uploadimg')->put($newName, file_get_contents($realPath));//保存图片

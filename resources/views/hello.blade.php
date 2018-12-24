@@ -107,7 +107,7 @@
                                 <div class="col-md-4 mt-20">
                                     <div class="newsletter fancy mb-10">
                                         <form method="get" action="/upload" id="upload_url" enctype="multipart/form-data">
-                                            <input type="search" name="upload_img" class="white-bg form-control" style="padding-right:20px;" placeholder="輸入圖片連結" onkeydown="enterIn(event)">
+                                            <input type="search" name="upload_img" class="white-bg form-control" style="padding-right:20px;" placeholder="输入图片链接" onkeydown="enterIn(event)">
                                             <div class="clear">
                                                 <button type="submit" name="submitbtn" class="button form-button1"><i class="fa fa-search"></i></button>
                                             </div>
@@ -124,7 +124,8 @@
                                     </form>
                                 </div>
                             </div>
-                            <h6 class="text-white ft-1">（上傳圖片格式為jpg,png 且小於10MB）</h6>
+                            <h6 class="text-white ft-1">（上传图片格式为jpg,png 且小于10MB）</h6>
+                            <h6 class="text-white ft-1">（点击下面图片可直接检索）</h6>
                             <!--
                                         <b class="text-white d-block mt-20">just to bring it into focus <a href="#">Join us to day</a> </b>
                                         <div class="mt-40">
@@ -186,7 +187,7 @@
             <div class="row no-gutter">
                 <div class="col-sm-12 text-center">
                     <blockquote class="blockquote quote mb-0">
-                        我們希望利用图片识别分析穿搭照片中的<span class="title-effect underline"> 潜在风格 </span>，帮助用户找到想要的服装搭配。
+                        我们希望利用图片识别分析穿搭照片中的<span class="title-effect underline"> 潜在风格 </span>，帮助用户找到想要的服装搭配。
 
                     </blockquote>
                 </div>
@@ -256,7 +257,7 @@
                                 <div class="team-description">
                                     <div class="team-info">
                                         <h5><a href="#">陈威铭</a></h5>
-                                        <span>市場組</span>
+                                        <span>市场組</span>
                                     </div>
                                     <div class="team-contact">
                                         <span class="call"> +(704) 279-1249</span>
@@ -275,7 +276,7 @@
                                 <div class="team-description">
                                     <div class="team-info">
                                         <h5><a href="#">黄凯欣</a></h5>
-                                        <span>市場組</span>
+                                        <span>市场組</span>
                                     </div>
                                     <div class="team-contact">
                                       <!--  <span class="call">2018270109</span>--><span class="call">+(704) 279-1249</span>
@@ -313,7 +314,7 @@
                                 <div class="team-description">
                                     <div class="team-info">
                                         <h5><a href="#">卢光宏</a></h5>
-                                        <span>組長</span>
+                                        <span>组长</span>
                                     </div>
                                     <div class="team-contact">
                                         <span class="call"> +(704) 279-1249</span>
@@ -380,7 +381,7 @@
                             </div>
                             <div class="process-info1">
                                 <h5 class="mb-20"> 爬取图片</h5>
-                                <p>5000張連衣裙</p>
+                                <p>5000张连衣裙</p>
 
                                 <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="false" data-items="6" data-md-items="5" data-sm-items="4" data-xs-items="3" data-xx-items="1" data-space="10" data-nav-dots="false" data-nav-arrow="false" >
                                     <div class="item">
@@ -422,7 +423,7 @@
                             </div>
                             <div class="process-info">
                                 <h5 class="mb-20"> 数据清理</h5>
-                                <p>透過.....</p>
+                                <p>透过.....</p>
                                 <span class="round-chart" data-percent="77" data-width="4" data-color="#ed5001"> <span class="percent" style="color:#ed5001; "></span> </span>
                             </div>
                         </div>
@@ -439,7 +440,7 @@
                             </div>
                             <div class="process-info">
                                 <h5 class="mb-20"> 数据标注</h5>
-                                束腰、袖長、裙長、顏色、裙型、花紋
+                                束腰、袖长、裙长、颜色、裙型、花纹
                             </div>
                         </div>
                         <div class="border-area left-bottom"></div>
@@ -524,7 +525,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 text-center text-white">
-                    <h3 class="mb-20 text-white">離期末答辯還剩！</h3>
+                    <h3 class="mb-20 text-white">离期末答辩还剩！</h3>
                     <div class="countdown small">
                         <span class="days">00</span>
                         <p class="days_ref text-white">days</p>
@@ -552,7 +553,7 @@
             <div class="footer-widget">
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <p class="mt-15"> &copy;Copyright <span id="copyright"></span> <a href="#"> 大數據第12組 </a> All Rights Reserved </p>
+                        <p class="mt-15"> &copy;Copyright <span id="copyright"></span> <a href="#"> 大数据第12組 </a> All Rights Reserved </p>
                     </div>
                 </div>
             </div>
