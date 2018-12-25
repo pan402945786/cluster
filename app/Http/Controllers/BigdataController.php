@@ -21,7 +21,7 @@ class BigdataController extends Controller
     const SERVER = 'http://62.234.201.250/';
     public function index() {
         $pic = [
-            '01.jpg','02.jpg','03.jpg','04.jpg','05.jpg','06.jpg','07.jpg','08.jpg'
+            '09.jpg','10.jpg'
         ];
 
         $except = ['02.jpg'];
