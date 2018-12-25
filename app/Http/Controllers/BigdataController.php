@@ -20,9 +20,13 @@ class BigdataController extends Controller
 //    const SERVER = 'http://127.0.0.1/';
     const SERVER = 'http://62.234.201.250/';
     public function index() {
-        $pic = [
-            '09.jpg','10.jpg','03.jpg','04.jpg','05.jpg','06.jpg','07.jpg','08.jpg'
-        ];
+        for($i = 1; $i <= 20; $i++) {
+            $pic[] = str_pad($i, 2, "0", STR_PAD_LEFT) . ".jpg";
+        }
+
+//        $pic = [
+//            '09.jpg','10.jpg','11.jpg','12.jpg','13.jpg','14.jpg','07.jpg','08.jpg'
+//        ];
 
         $except = ['02.jpg','06.jpg','07.jpg','08.jpg','03.jpg','04.jpg','05.jpg'];
 

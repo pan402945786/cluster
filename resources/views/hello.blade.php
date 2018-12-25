@@ -137,7 +137,7 @@
                             <div class="row justify-content-center">
                                 {{--<div class="owl-carousel" data-nav-dots="false" data-nav-arrow="false" data-items="6" data-md-items="5" data-sm-items="4" data-xs-items="3" data-xx-items="1" data-space="10" data-nav-dots="false" data-nav-arrow="false" >--}}
                                 {{--<div class="mt-50 col-md-8 owl-carousel" data-items="5" data-md-items="5" data-sm-items="4" data-xs-items="3" data-xx-items="2" data-space="10" data-nav-dots="false" data-nav-arrow="false" >--}}
-                                <div class="mt-5 col-md-4 owl-carousel" data-items="2" data-md-items="4" data-sm-items="4" data-xs-items="3" data-xx-items="2" data-space="10" data-nav-dots="false" data-nav-arrow="false" >
+                                <div class="mt-50 col-md-8 owl-carousel" data-items="6" data-md-items="4" data-sm-items="4" data-xs-items="3" data-xx-items="2" data-space="10" data-nav-dots="false" data-nav-arrow="false" >
                                     @foreach($url as $item)
                                         <a href="{{$site . "upload?upload_img=" . $site . $item}}">
                                             <div class="item">

@@ -145,6 +145,7 @@
                         <div class="grid-sizer"></div>
                         @foreach($arrRes as $arrItem)
                             <div class="masonry-item {{$arrItem['label_str']}}">
+                                <a href="{{$site . "upload?upload_img=" . $arrItem['url']}}"><button>搜风格</button></a>
                                 <div class="portfolio-item">
                                     <img src="{{$arrItem['url']}}" alt="">
                                     <a class="popup portfolio-img" href="{{$arrItem['url']}}"><i class="fa fa-arrows-alt"></i></a>
