@@ -368,7 +368,7 @@
         </div>
     </section>
 
-    <section id="process" class="process-list white-bg page-section-pt">
+    <section id="process" class="process-list white-bg page-section-pt" style="display: none;">
         <div class="container">
             <div class="row ">
                 <div class="col-sm-12">
